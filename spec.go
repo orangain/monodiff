@@ -19,21 +19,20 @@ func loadSpecFile(fileName string) (*Spec, error) {
 	if err != nil {
 		return nil, err
 	}
-	specJSON := make(map[string]ProjectJSON)
+	specJSON := map[string]ProjectJSON{}
 	if err := json.Unmarshal(bytes, &specJSON); err != nil {
 		return nil, err
 	}
 
-	projectNameMap := make(map[string]bool)
+	projectNameMap := map[string]bool{}
 	for projectName := range specJSON {
 		projectNameMap[projectName] = true
 	}
-	// projects := make([]*Project, len(specJSON))
 	projects := []*Project{}
 
 	for projectName, projectJSON := range specJSON {
-		projectDependencies := []ProjectDependency{} //make([]ProjectDependency, 0)
-		filesDependencies := []FilesDependency{{GlobPattern: projectName}}
+		projectDependencies := []ProjectDependency{}
+		filesDependencies := []FilesDependency{{GlobPattern: projectName}} // project depends on its directory
 
 		for _, dep := range projectJSON.Deps {
 			if _, present := projectNameMap[dep]; present {

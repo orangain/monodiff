@@ -7,7 +7,7 @@ import (
 )
 
 func detectChanges(spec *Spec, changedFiles []string) ([]*Project, error) {
-	projectOrderMap := make(map[*Project]int)
+	projectOrderMap := map[*Project]int{}
 	for i, project := range spec.Projects {
 		projectOrderMap[project] = i
 	}
@@ -17,8 +17,8 @@ func detectChanges(spec *Spec, changedFiles []string) ([]*Project, error) {
 		return nil, err
 	}
 
-	changedProjects := make([]*Project, 0)
-	changedProjectNameMap := make(map[string]bool)
+	changedProjects := []*Project{}
+	changedProjectNameMap := map[string]bool{}
 
 	for _, project := range sortedProjects {
 		isChanged := false
@@ -55,12 +55,12 @@ func detectChanges(spec *Spec, changedFiles []string) ([]*Project, error) {
 // sortProjects sort project to ensure that a project appears after all of its dependencies using topological sort.
 // See: https://en.wikipedia.org/wiki/Topological_sorting#Depth-first_search
 func sortProjects(projects []*Project) ([]*Project, error) {
-	projectMap := make(map[string]*Project)
+	projectMap := map[string]*Project{}
 	for _, project := range projects {
 		projectMap[project.Name] = project
 	}
 
-	sortedProjects := make([]*Project, 0)
+	sortedProjects := []*Project{}
 	processed := make(map[*Project]bool, len(projects)) // permanent mark
 	seen := make(map[*Project]bool, len(projects))      // temporary mark
 
