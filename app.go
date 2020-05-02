@@ -2,6 +2,7 @@ package monodiff
 
 import (
 	"bufio"
+	"fmt"
 	"os"
 
 	"github.com/urfave/cli/v2"
@@ -28,7 +29,7 @@ var App = &cli.App{
 
 		changedProjects, err := detectChanges(spec, changedFiles)
 		for _, changedProject := range changedProjects {
-			println(changedProject.Name)
+			fmt.Println(changedProject.Name)
 		}
 
 		return nil
