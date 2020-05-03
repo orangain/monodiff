@@ -1,6 +1,6 @@
 FROM golang:1.14 AS builder
-WORKDIR /app
 COPY . /app
+WORKDIR /app
 RUN go build -o monodiff cmd/monodiff/*.go
 
 FROM alpine/git
