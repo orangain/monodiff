@@ -28,6 +28,18 @@ var filesDependencySpec = &Spec{
 	},
 }
 
+var patternDependencySpec = &Spec{
+	Projects: []*Project{
+		{
+			Name: "main",
+			FilesDependencies: []FilesDependency{
+				{"main"},
+				{"package*.json"},
+			},
+		},
+	},
+}
+
 var projectDependencySpec = &Spec{
 	Projects: []*Project{
 		{
@@ -129,6 +141,16 @@ func TestDetectNoChangesWhenFilesOutOfFilesDependencyAreChanged(t *testing.T) {
 	}
 	if len(changedProjects) != 0 {
 		t.Fatal("changedProjects must be empty")
+	}
+}
+
+func TestDetectPatternDependency(t *testing.T) {
+	changedProjects, err := detectChanges(patternDependencySpec, []string{"package.json"})
+	if err != nil {
+		t.Fatalf("failed test %#v", err)
+	}
+	if !reflect.DeepEqual(projectNames(changedProjects), []string{"main"}) {
+		t.Fatal("changedProjects does not match")
 	}
 }
 
