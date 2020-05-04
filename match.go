@@ -1,10 +1,16 @@
 package monodiff
 
-import "strings"
+import (
+	"github.com/gobwas/glob"
+)
 
 func matchPattern(globPattern string, paths []string) bool {
+	sep := '/'
+	globFile := glob.MustCompile(globPattern, sep)      // Exact match
+	globDir := glob.MustCompile(globPattern+"/**", sep) // Prefix match
+
 	for _, path := range paths {
-		if path == globPattern || strings.HasPrefix(path, globPattern+"/") {
+		if globFile.Match(path) || globDir.Match(path) {
 			return true
 		}
 	}
