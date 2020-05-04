@@ -3,7 +3,6 @@ package monodiff
 import (
 	"errors"
 	"sort"
-	"strings"
 )
 
 func detectChanges(spec *Spec, changedFiles []string) ([]*Project, error) {
@@ -32,7 +31,7 @@ func detectChanges(spec *Spec, changedFiles []string) ([]*Project, error) {
 
 		if !isChanged {
 			for _, filesDependency := range project.FilesDependencies {
-				if matchPattern(changedFiles, filesDependency.GlobPattern) {
+				if matchPattern(filesDependency.GlobPattern, changedFiles) {
 					isChanged = true
 					break
 				}
@@ -98,15 +97,6 @@ func sortProjects(projects []*Project) ([]*Project, error) {
 		}
 	}
 	return sortedProjects, nil
-}
-
-func matchPattern(changedFiles []string, globPattern string) bool {
-	for _, changedFile := range changedFiles {
-		if changedFile == globPattern || strings.HasPrefix(changedFile, globPattern+"/") {
-			return true
-		}
-	}
-	return false
 }
 
 func projectNames(projects []*Project) []string {
