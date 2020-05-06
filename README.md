@@ -1,5 +1,7 @@
 # monodiff
 
+**IMPORTANT: You can detect modified part of monorepo by using GitHub Action's [on.<push|pull_request>.paths](https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#onpushpull_requestpaths) more easily.**
+
 monodiff is a simple and language-agnostic tool to detect modified part of monorepo.
 
 Once you declare sub-projects and their dependencies in `monodiff.json`, monodiff reads a list of changed files, typically result of `git diff —name-only origin/master`, from standard input, then outputs affected sub-projects by the changes. Using its output, you can easily build or deploy only affected projects in CI/CD.
