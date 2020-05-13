@@ -11,8 +11,10 @@ import (
 
 // App is a CLI app of monodiff using urfave/cli/v2.
 var App = &cli.App{
-	Name:  "monodiff",
-	Usage: "Simple tool to detect modified part of monorepo",
+	Name:            "monodiff",
+	HelpName:        "monodiff",
+	Usage:           "Simple tool to detect modified part of monorepo",
+	HideHelpCommand: true,
 	Flags: []cli.Flag{
 		&cli.StringFlag{
 			Name:  "prefix",
